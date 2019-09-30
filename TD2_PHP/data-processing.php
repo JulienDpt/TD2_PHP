@@ -14,9 +14,9 @@
         $phone = $_POST['phone'];
         $action = $_POST['action'];
 
-        $message = 'Voici vos identifiants d\'inscription :' . PHP_EOL.$id;
-        $message .= 'Email : ' . $mail . PHP_EOL;
-        $message .= 'Mot de passe : ' . PHP_EOL . $pwd;
+        $message = 'Voici vos identifiants d\'inscription : ' . PHP_EOL.$id . '<br/>';
+        $message .= 'Email : ' . $mail . PHP_EOL . '<br/>';
+        $message .= 'Mot de passe : ' . PHP_EOL . $pwd . '<br/>';
         echo $message;
     }
     if (mail ($maildest,'test', $message))
