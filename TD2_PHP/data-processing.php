@@ -6,11 +6,11 @@
     if ($action = 'mailer')
     {
         $id = $_POST['id'];
-        $male = $_POST['male'];
-        $female = $_POST['female'];
+        $sexe = $_POST['sexe'];
         $mail = $_POST['mail'];
         $maildest = $_POST['maildest'];
         $pwd = $_POST['pwd'];
+        $verifPwd = $_POST['verifPwd'];
         $phone = $_POST['phone'];
         $action = $_POST['action'];
 
@@ -23,4 +23,8 @@
         echo 'Mail correctement envoyé';
     else
         echo 'Mail non envoyé';
+
+$today = date('Y.m.d');
+$query = 'INSERT INTO user (id, sexe, mail, pwd, date)';
+$query .= 'VALUES (\'' . $id . '\', \''. $sexe . '\', \'' . $mail . '\', \'' . $pwd . '\', \''. $today . '\')';
     ?>
