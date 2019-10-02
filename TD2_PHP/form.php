@@ -1,6 +1,7 @@
 <?php
 include 'utils.inc.php';
 ?>
+
 <?php start_page('TD2'); ?>
         <form action="data-processing.php" method="post" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
             <input type="text" name="id" placeholder="Identifiant">

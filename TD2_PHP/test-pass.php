@@ -1,25 +1,66 @@
 <?php
-    include 'utlis.inc.php';
-    start_page('Test-pass');
-
+    include 'utils.inc.php';
     $login = $_POST['login'];
-    $mdp = $_POST['mdp'];
-
+    $pwd = $_POST['pwd'];
+    // BD
     $dbLink = mysqli_connect('mysql-juliendpt.alwaysdata.net', 'juliendpt', 'sugararvor280900')
     or die('Erreur de connexion au serveur : ' . mysqli_connect_error());
 
     mysqli_select_db($dbLink , 'juliendpt_td2')
     or die('Erreur dans la sélection de la base : ' . mysqli_error($dbLink));
 
-    $query = 'SELECT * FROM user WHERE $id =';
+    $query = 'SELECT * FROM user WHERE id = \'' . $login . '\'';
+
 
 if(!($dbResult = mysqli_query($dbLink, $query)))
-{
-    echo 'Erreur de requête<br/>';
-    // Affiche le type d'erreur.
-    echo 'Erreur : ' . mysqli_error($dbLink) . '<br/>';
-    // Affiche la requête envoyée.
-    echo 'Requête : ' . $query . '<br/>';
-    exit();
-}
+    {
+        echo 'Erreur de requête<br/>';
+        // Affiche le type d'erreur.
+        echo 'Erreur : ' . mysqli_error($dbLink) . '<br/>';
+        // Affiche la requête envoyée.
+        echo 'Requête : ' . $query . '<br/>';
+        exit();
+    }
+
+    else if (isset($_POST['action']) && !empty(trim($login)) && !empty(trim($pwd)))
+    {
+        while ($fetch = mysqli_fetch_assoc($dbResult))
+        {
+            if ($fetch['password'] == $pwd)
+            {
+                session_start();
+                $_SESSION['login'] = 'ok';
+                $_SESSION['id'] = $login;
+                $_SESSION['pwd'] = $pwd;
+                if (!($updateQuery = mysqli_query($dbLink, 'UPDATE user SET nbConnections = nbConnections + 1 WHERE login = \'' . $login . '\'')))
+                {
+                    echo 'Erreur de requête<br/>';
+                    // Affiche le type d'erreur.
+                    echo 'Erreur : ' . mysqli_error($dbLink) . '<br/>';
+                    // Affiche la requête envoyée.
+                    echo 'Requête : ' . $query . '<br/>';
+                    exit();
+                }
+            }
+        }
+    }
+    else
+    {
+        header('Location: login.php?step=ERREUR');
+    }
+    if ($_SESSION['login'] == 'ok')
+    {
+        if ($login == 'admin')
+            header('Location: admin.php');
+        else
+        {
+            start_page('Bienvenue');
+            echo '<h1> Bienvenue ' . $_SESSION['id'] . '</h1>' . PHP_EOL;
+            end_page();
+        }
+    }
+    else
+    {
+        header('Location: login.php?step=ERREUR');
+    }
 ?>
