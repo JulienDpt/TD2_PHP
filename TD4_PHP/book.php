@@ -13,8 +13,5 @@
             $this->editor = $editor;
             $this->pageNb = $pageNb;
         }
-
-
-
     }
 ?>
