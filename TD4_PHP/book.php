@@ -13,5 +13,13 @@
             $this->editor = $editor;
             $this->pageNb = $pageNb;
         }
+
+        public function getTitle ($title)
+        {
+            re
+        }
+
+
+
     }
 ?>
